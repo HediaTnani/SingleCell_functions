@@ -18,17 +18,16 @@ filter_scdata <- function (seurat.ls, proba, workers) {
       }else{
         countLOW=quantile(seurat.ls$nCount_RNA, prob=c(0.01))  
       }
-      countHIGH=quantile(seurat.ls$nCount_RNA, prob=0.99) 
-      featureLOW=quantile(seurat.ls$nFeature_RNA, prob=0.01)
-      mitHIGH=round(quantile(seurat.ls$percent.MT, prob=proba))
+    countHIGH=quantile(seurat.ls$nCount_RNA, prob=0.99) 
+    featureLOW=quantile(seurat.ls$nFeature_RNA, prob=0.01)
+    mitHIGH=round(quantile(seurat.ls$percent.MT, prob=proba))
       
       ##subset
-      seurat.ls <- subset(x = seurat.ls, 
+    seurat.ls <- subset(x = seurat.ls, 
                                subset = (nFeature_RNA >= featureLOW) & 
                                  (nCount_RNA >= countLOW)  & 
                                  (nCount_RNA < countHIGH) & 
                                  (percent.MT < mitHIGH))
-    }
     return(seurat.ls)
   }else {
     message(paste("Number of cores available:", availableCores()))
@@ -44,18 +43,19 @@ filter_scdata <- function (seurat.ls, proba, workers) {
       }else{
         countLOW=quantile(seurat.ls$nCount_RNA, prob=c(0.01))  
       }
-      countHIGH=quantile(seurat.ls$nCount_RNA, prob=0.99) 
-      featureLOW=quantile(seurat.ls$nFeature_RNA, prob=0.01)
-      mitHIGH=round(quantile(seurat.ls$percent.MT, prob=proba))
+    countHIGH=quantile(seurat.ls$nCount_RNA, prob=0.99) 
+    featureLOW=quantile(seurat.ls$nFeature_RNA, prob=0.01)
+    mitHIGH=round(quantile(seurat.ls$percent.MT, prob=proba))
       
       ##subset
-      seurat.ls <- subset(x = seurat.ls, 
+    seurat.ls <- subset(x = seurat.ls, 
                                subset = (nFeature_RNA >= featureLOW) & 
                                  (nCount_RNA >= countLOW)  & 
                                  (nCount_RNA < countHIGH) & 
                                  (percent.MT < mitHIGH))
-    }
     return(seurat.ls)
+    }
+   
   }
-}
+
 
