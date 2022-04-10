@@ -20,6 +20,10 @@ load_scdata <- function (dir, workers) {
     samples.ls <- in.list %>% furrr::future_map( ~ paste0(.x,"/filtered_feature_bc_matrix"))
     names(samples.ls) <- sapply(in.list, basename) %>% purrr::set_names() 
     seurat.ls <- samples.ls %>% furrr::future_map( ~ Read10X(.x)) %>% furrr::future_map( ~ CreateSeuratObject(.x,min.features = 100), project = names(samples.ls))
+    for (i in seq_along(names(samples.ls))){
+      seurat.ls[[i]]@meta.data$orig.ident <- factor(rep(names(samples.ls)[i], nrow(seurat.ls[[i]]@meta.data)))
+      Idents(seurat.ls[[i]]) <- seurat.ls[[i]]@meta.data$orig.ident
+    }
     return(seurat.ls)
   }else {
     message(paste("Number of cores available:", availableCores()))
@@ -34,7 +38,10 @@ load_scdata <- function (dir, workers) {
     samples.ls <- in.list %>% furrr::future_map( ~ paste0(.x,"/filtered_feature_bc_matrix"))
     names(samples.ls) <- sapply(in.list, basename) %>% purrr::set_names() 
     seurat.ls <- samples.ls %>% furrr::future_map( ~ Read10X(.x)) %>% furrr::future_map( ~ CreateSeuratObject(.x,min.features = 100), project = names(samples.ls))
+    for (i in seq_along(names(samples.ls))){
+      seurat.ls[[i]]@meta.data$orig.ident <- factor(rep(names(samples.ls)[i], nrow(seurat.ls[[i]]@meta.data)))
+      Idents(seurat.ls[[i]]) <- seurat.ls[[i]]@meta.data$orig.ident
+    }
     return(seurat.ls)
   }
 }
-
